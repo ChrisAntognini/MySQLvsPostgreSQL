@@ -6,8 +6,8 @@
 -- setup
 --
 
-DROP TABLE fk;
-DROP TABLE t1;
+DROP TABLE IF EXISTS fk;
+DROP TABLE IF EXISTS t1;
 
 -- single-column partitioning
 

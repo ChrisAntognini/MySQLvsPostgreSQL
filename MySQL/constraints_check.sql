@@ -5,7 +5,7 @@
 
 -- setup
 
-DROP TABLE t;
+DROP TABLE IF EXISTS t;
 
 CREATE TABLE t (
   i1 INTEGER,

@@ -5,7 +5,7 @@
 
 -- during the generation of an execution plan equalities on PK/UK are probed for matching row
 
-DROP TABLE t;
+DROP TABLE IF EXISTS t;
 
 CREATE TABLE t (
   i1 INTEGER PRIMARY KEY,

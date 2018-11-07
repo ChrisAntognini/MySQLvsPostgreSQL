@@ -178,6 +178,42 @@ SELECT *
 FROM large
 WHERE nu IN (SELECT /*+ semijoin(materialization) */ nu FROM small s);
 
+-- SKIP_SCAN, NO_SKIP_SCAN: Affects Skip Scan optimization (Table, index) 8.0.13+
+
+DROP TABLE IF EXISTS t;
+
+CREATE TABLE t (u INTEGER NOT NULL, g INTEGER NOT NULL, nu INTEGER NOT NULL, p VARCHAR(128), PRIMARY KEY (u)) AS SELECT u, mod(u,100000) g, nu, p FROM large WHERE u <= 100000;
+
+CREATE UNIQUE INDEX t_g_nu ON t (g, nu);
+
+EXPLAIN 
+SELECT g, nu
+FROM t
+WHERE nu = 42;
+
+EXPLAIN 
+SELECT /*+ skip_scan(t) */ g, nu
+FROM t
+WHERE nu = 42;
+
+DROP TABLE t;
+
+CREATE TABLE t (u INTEGER NOT NULL, g INTEGER NOT NULL, nu INTEGER NOT NULL, p VARCHAR(128), PRIMARY KEY (u)) AS SELECT u, mod(u,10) g, nu, p FROM large WHERE u <= 100000;
+
+CREATE UNIQUE INDEX t_g_nu ON t (g, nu);
+
+EXPLAIN 
+SELECT g, nu
+FROM t
+WHERE nu = 42;
+
+EXPLAIN 
+SELECT /*+ no_skip_scan(t) */ g, nu
+FROM t
+WHERE nu = 42;
+
+DROP TABLE t;
+
 -- SUBQUERY: affect materialization, IN-to-EXISTS subquery stratgies (Query block)
 
 EXPLAIN 
