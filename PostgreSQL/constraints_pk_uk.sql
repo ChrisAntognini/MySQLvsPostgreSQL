@@ -4,7 +4,7 @@
 
 -- correlation of PK better than UK -> PK used
 
-DROP TABLE t;
+DROP TABLE IF EXISTS t;
 
 CREATE TABLE t (
   i1 INTEGER PRIMARY KEY,
